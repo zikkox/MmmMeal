@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mmmmeal.presentation.screens.HomeScreen
 import com.example.mmmmeal.presentation.screens.LoginScreen
+import com.example.mmmmeal.presentation.screens.SignupScreen
 import com.example.mmmmeal.presentation.screens.SplashScreen
 
 class AppNavigation {
@@ -23,6 +25,10 @@ class AppNavigation {
                 LoginScreen(navController)
             }
             composable(Screen.Home.route) {
+                HomeScreen(navController)
+            }
+            composable(Screen.Signup.route) {
+                SignupScreen(navController)
             }
         }
     }

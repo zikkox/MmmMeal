@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mmmmeal.presentation.navigation.Screen
-import com.example.mmmmeal.viewmodels.SplashViewModel
+import com.example.mmmmeal.presentation.viewmodels.SplashViewModel
 
 @Composable
 fun SplashScreen(navController: NavController, viewModel: SplashViewModel = viewModel()) {
@@ -89,7 +89,8 @@ fun SplashScreen(navController: NavController, viewModel: SplashViewModel = view
                 color = Color.White,
                 fontSize = 60.sp,
                 fontFamily = FontFamily(Font(R.font.baloo_medium)),
-                modifier = Modifier.alpha(alpha)
+                modifier = Modifier.alpha(alpha),
+                letterSpacing = 2.sp
             )
         }
     }

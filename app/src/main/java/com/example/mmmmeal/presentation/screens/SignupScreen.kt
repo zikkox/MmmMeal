@@ -1,6 +1,5 @@
 package com.example.mmmmeal.presentation.screens
 
-import android.app.Dialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -40,30 +38,30 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mmmmeal.R
-import com.example.mmmmeal.presentation.navigation.Screen
+import com.example.mmmmeal.presentation.viewmodels.SignupViewModel
 import com.example.mmmmeal.ui.components.CustomOutlinedTextField
-import com.example.mmmmeal.presentation.viewmodels.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun SignupScreen(navController: NavController) {
 
     val strawberryRed = colorResource(id = R.color.strawberry_red)
     val lightGray = colorResource(id = R.color.light_gray)
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val viewModel: LoginViewModel = viewModel()
+    val viewModel: SignupViewModel = viewModel()
     val state = viewModel.uiState
 
     val email = state.email
     val password = state.password
+    val repeatPassword = state.repeatPassword
     val isPasswordVisible = state.isPasswordVisible
+
 
     Box(
         modifier = Modifier
@@ -111,8 +109,7 @@ fun LoginScreen(navController: NavController) {
                     painter = painterResource(id = R.drawable.bg_rectangle),
                     contentDescription = "Top Background",
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillBounds,
-                    colorFilter = ColorFilter.tint(strawberryRed)
+                    contentScale = ContentScale.FillBounds
                 )
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -138,16 +135,16 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                "Sign In",
+                "Sign Up",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily(Font(R.font.baloo_medium)),
                 color = Color.Black,
                 letterSpacing = 2.sp
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            //email
             //email field
             CustomOutlinedTextField(
                 type = "email",
@@ -170,6 +167,17 @@ fun LoginScreen(navController: NavController) {
                 onIconClickFun = { viewModel.togglePasswordVisibility() }
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            //repeat password field
+            CustomOutlinedTextField(
+                type = "password",
+                value = repeatPassword,
+                onValueChangeFun = { viewModel.onRepeatPasswordChange(it) },
+                placeHolder = "Repeat your password",
+                isPasswordVisible = isPasswordVisible,
+                onIconClickFun = { viewModel.togglePasswordVisibility() }
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -179,16 +187,15 @@ fun LoginScreen(navController: NavController) {
                     .align(Alignment.End)
                     .padding(end = 40.dp),
                 color = Color.Gray,
-                fontFamily = FontFamily(Font(R.font.baloo_medium)),
                 fontSize = 14.sp
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            //login button
+            //register button
             Button(
                 onClick = {
-                    viewModel.loginUser()
+                    viewModel.registerUser()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = strawberryRed),
                 shape = RoundedCornerShape(50),
@@ -197,55 +204,47 @@ fun LoginScreen(navController: NavController) {
                     .height(48.dp)
             ) {
                 Text(
-                    "Login",
+                    "Sign Up",
                     fontSize = 24.sp,
-                    color = Color.White,
-                    fontFamily = FontFamily(Font(R.font.baloo_medium))
+                    color = Color.White
                 )
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Row {
-                Text(
-                    "No account yet ? ",
-                    color = Color.Gray,
-                    fontFamily = FontFamily(Font(R.font.baloo_medium))
-                )
-                Text("Sign up now ⓘ",
+                Text("Already have an account ? ", color = Color.Gray)
+                Text("Login now ⓘ",
                     color = strawberryRed,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily(Font(R.font.baloo_medium)),
                     modifier = Modifier.clickable {
-                        navController.navigate("signup")
+                        navController.navigate("login")
                     })
             }
         }
+    }
 
-        LaunchedEffect(state.successMessage, state.errorMessage) {
-            if (state.successMessage != null) {
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
-            }
-            if (!state.errorMessage.isNullOrBlank()) {
-                snackbarHostState.showSnackbar(state.errorMessage ?: "null")
-                viewModel.clearErrorMessage()
+    LaunchedEffect(state.successMessage, state.errorMessage) {
+        if (state.successMessage != null) {
+            navController.navigate("home") {
+                popUpTo("login") { inclusive = true }
             }
         }
+        if (!state.errorMessage.isNullOrBlank()) {
+            snackbarHostState.showSnackbar(state.errorMessage ?: "null")
+            viewModel.clearErrorMessage()
+        }
+    }
 
-        if (state.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Transparent),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(strokeWidth = 4.dp)
-            }
-
+    if (state.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(strokeWidth = 4.dp)
         }
     }
 }
-
 

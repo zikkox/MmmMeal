@@ -1,4 +1,4 @@
-package com.example.mmmmeal.viewmodels
+package com.example.mmmmeal.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
