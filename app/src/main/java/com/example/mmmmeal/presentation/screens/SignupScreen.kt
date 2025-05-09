@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -73,14 +74,21 @@ fun SignupScreen(navController: NavController) {
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(16.dp), { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = strawberryRed,
-                    contentColor = Color.White
-                )
-            }
-        )
+                .padding(16.dp)
+        ) { data ->
+            Snackbar(
+                containerColor = strawberryRed,
+                contentColor = Color.White,
+                content = {
+                    Text(
+                        text = data.visuals.message,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color.White,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            )
+        }
 
         //background image
         Image(

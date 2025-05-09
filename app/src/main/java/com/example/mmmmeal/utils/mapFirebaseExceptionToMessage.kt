@@ -5,7 +5,7 @@ fun mapFirebaseExceptionToMessage(exception: Exception?): String {
         null -> "An unknown error occurred."
 
 
-        //Login Messages
+        //login Messages
 
         //invalid email format
         "The email address is badly formatted." -> "Please enter a valid email address."
@@ -22,20 +22,32 @@ fun mapFirebaseExceptionToMessage(exception: Exception?): String {
         "The user account has been disabled by an administrator." ->
             "Your account has been disabled. Please contact support."
 
+        //login failed
+        "The supplied auth credential is incorrect, malformed or has expired." ->
+            "Login failed. The password or email you entered is incorrect."
+
+
+
 
         //signup Messages
 
         // email already in use
-        "The email address is already in use by another account." -> "This email is already registered. Please log in instead."
+        "The email address is already in use by another account." ->
+            "This email is already registered. Please log in instead."
 
         //weak password
-        "The given password is invalid. [ Password should be at least 6 characters ]" -> "Password is too weak. Please use at least 6 characters."
+        "The given password is invalid. [ Password should be at least 6 characters ]" ->
+            "Password is too weak. Please use at least 6 characters."
 
         //email/password sign-up disabled
-        "Email/password sign-in is disabled for this project." -> "Email/password sign-up is disabled. Please contact support."
+        "Email/password sign-in is disabled for this project." ->
+            "Email/password sign-up is disabled. Please contact support."
 
         //too many requests
-        "Too many requests. Please try again later." -> "Too many attempts. Please try again later."
+        "Too many requests. Please try again later." ->
+            "Too many attempts. Please try again later."
+
+
 
 
         //network error

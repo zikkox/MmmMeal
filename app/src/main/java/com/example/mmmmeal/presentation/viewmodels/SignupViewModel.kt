@@ -38,6 +38,13 @@ class SignupViewModel : ViewModel() {
             return
         }
 
+        if (uiState.password != uiState.repeatPassword) {
+            uiState = uiState.copy(
+                errorMessage = "Passwords do not match."
+            )
+            return
+        }
+
         uiState = uiState.copy(isLoading = true, errorMessage = null)
         auth.createUserWithEmailAndPassword(uiState.email, uiState.password)
             .addOnCompleteListener { task ->
@@ -48,7 +55,7 @@ class SignupViewModel : ViewModel() {
                     )
                 } else {
                     val userErrorMessage = mapFirebaseExceptionToMessage(task.exception)
-                    uiState.copy(
+                    uiState = uiState.copy(
                         isLoading = false,
                         errorMessage = userErrorMessage ?: "Unknown error"
                     )
