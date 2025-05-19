@@ -1,7 +1,9 @@
 package com.example.mmmmeal.data.repository
 
+import com.example.mmmmeal.data.model.Category
 import com.example.mmmmeal.data.model.Recipe
 import com.example.mmmmeal.data.remote.RecipeApiService
+import com.example.mmmmeal.utils.CategoryState
 import com.example.mmmmeal.utils.RecipeState
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,4 +39,14 @@ class RecipeRepository {
             RecipeState(error = e)
         }
     }
+
+    suspend fun getAllCategories(): CategoryState<List<Category>> {
+        return try {
+            val response = recipeApi.getAllCategories()
+            CategoryState(data = response?.categories ?: emptyList())
+        } catch (e: Exception) {
+            CategoryState(error = e)
+        }
+    }
+
 }

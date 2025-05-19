@@ -63,8 +63,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //ui
+    //ui & compose
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
 
     //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.10.0")
